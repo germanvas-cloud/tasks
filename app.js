@@ -564,19 +564,22 @@
       var temps = state.tasks.filter(function (t) { return t.id < 0; });
       applyBootstrap(data);
       state.tasks = state.tasks.concat(temps);
-      saveCache(); render(); handleDeepLink();
+      saveCache(); render(); handleDeepLink(true);
     }).catch(function (err) {
       state.error = err.code === 403 ? (err.message || 'Нет доступа') : (state.meta ? 'Не обновилось: ' + err.message + '. Показаны сохраненные данные.' : err.message);
       render();
     }).then(function () { refreshing = false; });
   }
   var deepLinkDone = false;
-  function handleDeepLink() {
+  // fresh = данные уже с сервера. Из кеша открываем, только если задача там есть.
+  function handleDeepLink(fresh) {
     if (deepLinkDone || !state.meta) return;
-    deepLinkDone = true;
     var start = tg && tg.initDataUnsafe && tg.initDataUnsafe.start_param || '';
     var taskId = +(params.get('task') || (start.match(/^task(\d+)$/) || [])[1] || 0);
-    if (taskId) { var t = findTask(taskId); if (t) openForm('edit', t); }
+    if (!taskId) { deepLinkDone = true; return; }
+    var t = findTask(taskId);
+    if (t) { deepLinkDone = true; if (!form) openForm('edit', t); }
+    else if (fresh) { deepLinkDone = true; toast('Задача #' + taskId + ' уже закрыта или не найдена'); }
   }
 
   function start() {

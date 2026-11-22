@@ -116,7 +116,7 @@
     } else if (mode === 'month' && t.deadline) {
       pills += '<span class="pill">' + esc(dayLabel(t.deadline, td)) + '</span>';
     }
-    if (t.status === ST.WAIT) pills += '<span class="pill wait">жду' + (t.waitSince ? ' ' + Math.max(0, ymdDiff(t.waitSince, td)) + ' дн.' : ' ответа') + '</span>';
+    if (t.status === ST.WAIT) { var wd = t.waitSince ? ymdDiff(t.waitSince, td) : 0; pills += '<span class="pill wait">' + (wd > 0 ? 'жду ' + wd + ' дн.' : 'жду ответа') + '</span>'; }
     else if (t.status === ST.WORK) pills += '<span class="pill">в работе</span>';
     var label = t.sphere + (t.project ? ' / ' + t.project : '');
     var waitBtn = t.status === ST.WAIT ? '<button class="act" data-act="work">В работу</button>' : '<button class="act" data-act="wait">Жду ответа</button>';

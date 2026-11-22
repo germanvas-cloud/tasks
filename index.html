@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Задачи</title>
+  <link rel="preconnect" href="https://script.google.com">
+  <link rel="preconnect" href="https://script.googleusercontent.com">
+  <script src="https://telegram.org/js/telegram-web-app.js?59"></script>
+  <link rel="stylesheet" href="style.css?v=1">
+</head>
+<body>
+  <div id="app">
+    <header class="top">
+      <div class="chips" id="sphereChips" role="tablist" aria-label="Сфера"></div>
+      <div class="chips chips-sub" id="projectChips" role="tablist" aria-label="Проект" hidden></div>
+    </header>
+
+    <main id="content" class="content" aria-live="polite"></main>
+
+    <button class="fab" id="fab" aria-label="Добавить задачу">
+      <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+    </button>
+
+    <nav class="tabs" id="tabs">
+      <button class="tab active" data-tab="today"><span class="tab-name">Сегодня</span><span class="count" id="cnt-today"></span></button>
+      <button class="tab" data-tab="week"><span class="tab-name">Неделя</span><span class="count" id="cnt-week"></span></button>
+      <button class="tab" data-tab="month"><span class="tab-name">Месяц</span><span class="count" id="cnt-month"></span></button>
+    </nav>
+  </div>
+
+  <!-- Редактирование и добавление -->
+  <section class="page" id="editPage" hidden aria-modal="true" role="dialog">
+    <div class="page-head">
+      <button class="link-btn" id="editClose">Закрыть</button>
+      <div class="page-title" id="editTitle">Задача</div>
+      <span class="page-id" id="editId"></span>
+    </div>
+    <div class="page-body">
+      <div class="field" id="quickWrap">
+        <label class="label" for="fQuick">Одной строкой</label>
+        <input id="fQuick" class="input" autocomplete="off" placeholder="НЛ: прислать сверку до пт" enterkeyhint="done">
+        <div class="hint">Сфера, проект и срок распознаются сами, ниже можно поправить</div>
+      </div>
+      <div class="field">
+        <label class="label" for="fTitle">Название</label>
+        <textarea id="fTitle" class="input textarea" rows="2" placeholder="Что сделать"></textarea>
+      </div>
+      <div class="field">
+        <div class="label">Сфера</div>
+        <div class="seg" id="fSphere"></div>
+      </div>
+      <div class="field" id="fProjectWrap" hidden>
+        <div class="label">Проект</div>
+        <div class="seg" id="fProject"></div>
+      </div>
+      <div class="field">
+        <div class="label">Срок</div>
+        <div class="seg" id="fQuickDates"></div>
+        <input id="fDeadline" class="input date" type="date">
+      </div>
+      <div class="field" id="fStatusWrap">
+        <div class="label">Статус</div>
+        <div class="seg" id="fStatus"></div>
+      </div>
+      <div class="field" id="fIprWrap" hidden>
+        <label class="label" for="fIpr">ИПР</label>
+        <select id="fIpr" class="input"></select>
+      </div>
+      <div class="field">
+        <label class="label" for="fNote">Заметка</label>
+        <textarea id="fNote" class="input textarea" rows="3" placeholder="Необязательно"></textarea>
+      </div>
+      <button class="danger-btn" id="fCancelTask">Отменить задачу</button>
+    </div>
+    <div class="page-foot">
+      <button class="primary-btn" id="fSave">Сохранить</button>
+    </div>
+  </section>
+
+  <!-- Достижение -->
+  <div class="sheet-backdrop" id="achBackdrop" hidden></div>
+  <section class="sheet" id="achSheet" hidden role="dialog" aria-modal="true" aria-labelledby="achHead">
+    <div class="sheet-grip"></div>
+    <div class="sheet-head" id="achHead">Записать в достижения?</div>
+    <div class="field">
+      <label class="label" for="achText">Формулировка</label>
+      <textarea id="achText" class="input textarea" rows="3"></textarea>
+    </div>
+    <div class="field">
+      <label class="label" for="achIpr">ИПР</label>
+      <select id="achIpr" class="input"></select>
+    </div>
+    <div class="sheet-actions">
+      <button class="ghost-btn" id="achNo">Нет</button>
+      <button class="primary-btn" id="achYes">Записать</button>
+    </div>
+  </section>
+
+  <div class="toast" id="toast" hidden role="status"><span id="toastText"></span><button class="toast-btn" id="toastBtn" hidden></button></div>
+
+  <script src="core.js?v=1"></script>
+  <script src="app.js?v=1"></script>
+</body>
+</html>
